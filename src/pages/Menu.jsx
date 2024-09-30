@@ -1,12 +1,12 @@
 import BaseLayout from '../components/layouts/BaseLayout';
 
-const Carta = () => {
+const Menu = () => {
     return (
         <>
             <BaseLayout>
-                <h2>Carta</h2>
+                <h2>Menu</h2>
             </BaseLayout>
         </>
     )
 }
-export default Carta
+export default Menu
