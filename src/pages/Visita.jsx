@@ -9,4 +9,4 @@ const Visita = () => {
         </>
     )
 }
-export default Visita
+export default Visita;
