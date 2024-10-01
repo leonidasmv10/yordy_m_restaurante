@@ -1,14 +1,9 @@
 class BaseController {
-    constructor() {
-        this.id = "-";
-        this.token = import.meta.env.VITE_TOKEN;
+    constructor(table_id) {
+        this.url_nocodb = "https://app.nocodb.com/api/v2/tables/" + table_id + "/records";
+        this.token = import.meta.env.VITE_NOCODB_TOKEN;
     }
-
-    get_url()
-    {
-        return  "https://app.nocodb.com/api/v2/tables/" + this.id + "/records";
-    }
-
+    
     add(data) {
 
         const options = {
@@ -20,7 +15,7 @@ class BaseController {
             body: JSON.stringify(data)
         }
 
-        fetch(this.get_url(), options)
+        fetch(this.url_nocodb, options)
             .then(z => z.json())
             .then(x => {
                 console.log("id rebut: ", x.Id);
@@ -40,7 +35,7 @@ class BaseController {
             }
         }
 
-        await fetch(this.get_url(), options)
+        await fetch(this.url_nocodb, options)
             .then(z => z.json())
             .then(x => {
                 list = x.list;
@@ -66,7 +61,7 @@ class BaseController {
             body: JSON.stringify(json_id)
         }
 
-        fetch(this.get_url(), options)
+        fetch(this.url_nocodb, options)
             .then(z => z.json())
             .then(x => {
                 console.log(x);

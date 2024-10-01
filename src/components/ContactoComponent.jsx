@@ -1,10 +1,10 @@
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const ContactoCard = ({ contacto, children }) => {
+const ContactoComponent = ({ contacto, children }) => {
     return (
         <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={contacto.imagenes} />
+            <Card.Img variant="top" src="./images/foto1.webp" />
             <Card.Body>
                 <Card.Title><strong>{contacto.nombre}</strong></Card.Title>
                 <Card.Text>
@@ -28,4 +28,4 @@ const ContactoCard = ({ contacto, children }) => {
     );
 }
 
-export default ContactoCard;
+export default ContactoComponent;

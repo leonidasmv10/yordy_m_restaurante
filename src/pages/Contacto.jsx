@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import BaseLayout from '../components/layouts/BaseLayout';
 
 import ContactoController from '../controllers/ContactoController'
-import ContactoCard from "../components/ContactoCard";
+import ContactoComponent from "../components/ContactoComponent";
+import CarouselComponent from "../components/CarouselComponent";
 
 const Contacto = () => {
 
@@ -39,26 +40,22 @@ const Contacto = () => {
     useEffect(() => {
         console.log(contactos);
 
-        // for (let i = 3; i < 22; i++) {
+        // for (let i = 0; i < 3; i++) {
         //     contactoController.delete(i);
         // }
     }, [contactos])
 
-
     return (
         <>
-
-
-
             <BaseLayout>
                 <h2>Contacto</h2>
-                {contactos.map((item, index) => (
-                    <>
-                        <ContactoCard key={item.Id} contacto={item}></ContactoCard>
+                <CarouselComponent></CarouselComponent>
+                {contactos.map((item) => (
+                    <div key={item.Id}>
+                        <ContactoComponent contacto={item}></ContactoComponent>
                         <br></br>
-                    </>
+                    </div>
                 ))}
-
             </BaseLayout>
         </>
     )

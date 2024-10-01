@@ -1,4 +1,5 @@
 import BaseLayout from '../components/layouts/BaseLayout';
+import React, { useEffect, useState } from 'react';
 
 const Carta = () => {
     return (
