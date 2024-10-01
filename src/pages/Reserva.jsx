@@ -49,9 +49,7 @@ const Reserva = () => {
                 <ReservaForm onSubmit={handleFormSubmit} />
 
 
-                {reservas.map((item) => (
-                    <h3 key={item.Id} >{item.nombre}</h3>
-                ))}
+                
             </BaseLayout>
         </>
     )

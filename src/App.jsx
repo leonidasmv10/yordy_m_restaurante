@@ -8,6 +8,9 @@ import Carta from './pages/Carta';
 import Menu from './pages/Menu';
 import Reserva from './pages/Reserva';
 import Visitas from './pages/Visita';
+import MenuAdmin from './pages/Administrador/MenuAdmin'
+import ReservaAdmin from './pages/Administrador/ReservaAdmin'
+import OpinionAdmin from './pages/Administrador/OpinionAdmin'
 
 
 const App = () => {
@@ -21,6 +24,9 @@ const App = () => {
         <Route path="/menu" element={<Menu />} />
         <Route path="/reserva" element={<Reserva />} />
         <Route path="/visitas" element={<Visitas />} />
+        <Route path="/admin/menu" element={<MenuAdmin />} />
+        <Route path="/admin/reserva" element={<ReservaAdmin />} />
+        <Route path="/admin/opiniones" element={<OpinionAdmin />} />
       </Routes>
     </>
   );

@@ -7,7 +7,7 @@ class PlatoController extends BaseController {
 
     async get_by_id_category(id_category) {
 
-        const url = this.url_nocodb + "?where=(id_categoria_plato,eq," + id_category + ")";
+        const url = this.url_nocodb + "?where=(categoria_plato_id,eq," + id_category + ")";
         
         let list;
 

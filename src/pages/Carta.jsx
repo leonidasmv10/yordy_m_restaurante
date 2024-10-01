@@ -66,7 +66,7 @@ const Carta = () => {
                         <h2>{categoria.nombre}</h2>
                         <ul>
                             {platos.map(plato => {
-                                if (plato.id_categoria_plato === categoria.Id) {
+                                if (plato.categoria_plato_id === categoria.Id) {
                                     return <li key={plato.Id}>{plato.nombre} - Precio: {plato.precio} euros</li>;
                                 }
                                 return null;
