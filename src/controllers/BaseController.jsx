@@ -3,7 +3,7 @@ class BaseController {
         this.url_nocodb = "https://app.nocodb.com/api/v2/tables/" + table_id + "/records";
         this.token = import.meta.env.VITE_NOCODB_TOKEN;
     }
-    
+
     add(data) {
 
         const options = {
