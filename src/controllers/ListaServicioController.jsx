@@ -4,6 +4,30 @@ class ListaServicioController extends BaseController {
     constructor() {
         super("m9z1mpqi1nvneth");
     }
+
+    async get_services_id_by_dish_id(id) {
+        const url = this.url_nocodb + "?where=(plato_id,eq," + id + ")";
+        let servicesIds = [];
+
+        const options = {
+            method: "GET",
+            headers: {
+                "xc-token": this.token,
+                'Content-Type': 'application/json'
+            }
+        }
+
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            servicesIds = data.list.map(item => item.servicio_id);
+        } catch (e) {
+            console.log(e);
+        }
+
+        return servicesIds;
+    }
+
 }
 
 export default ListaServicioController;
