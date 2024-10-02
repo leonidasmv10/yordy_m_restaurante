@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
 import BaseLayout from '../../components/layouts/BaseLayout';
 
@@ -31,21 +32,39 @@ const MenuAdmin = () => {
     };
 
     const handleChange = (platoId) => (selected) => {
-        setSelectedOptions((prevOptions) => ({
-            ...prevOptions,
-            [platoId]: selected || [],
-        }));
+        setSelectedOptions((prevOptions) => {
+            const previousSelected = prevOptions[platoId] || [];
+            const updatedOptions = {
+                ...prevOptions,
+                [platoId]: selected || [],
+            };
+
+            // Detectar los IDs eliminados comparando `previousSelected` y `selected`
+            const previousValues = previousSelected.map((option) => option.value);
+            const currentValues = (selected || []).map((option) => option.value);
+
+            const removedValues = previousValues.filter((value) => !currentValues.includes(value));
+            if (removedValues.length > 0) {
+                console.log(`Opciones eliminadas para el plato con ID ${platoId}:`, removedValues);
+            }
+
+            // Imprimir opciones actuales
+            console.log(`Opciones seleccionadas para el plato con ID ${platoId}:`, currentValues);
+
+            return updatedOptions;
+        });
     };
 
+
     const handleCheckboxChange = (item) => (e) => {
-        item.active = e.target.checked == true ? 1 : 0;
+        item.activo = e.target.checked == true ? 1 : 0;
 
         setCheckboxes((prev) => ({
             ...prev,
-            [item.Id]: item.active,
+            [item.Id]: item.activo,
         }));
 
-        opinionController.set_active(item.Id, item.active);
+        platoController.set_active(item.Id, item.activo);
     };
 
     const handleFormSubmit = (data) => {
@@ -61,6 +80,13 @@ const MenuAdmin = () => {
                 const listaDePlatos = await platoController.get();
                 setPlatos(listaDePlatos);
 
+                const initialCheckboxes = listaDePlatos.reduce((acc, plato) => {
+                    acc[plato.Id] = plato.activo == 1 ? true : false; // Aquí asignas el estado a cada checkbox
+                    return acc;
+                }, {});
+
+                setCheckboxes(initialCheckboxes); // Actualiza el estado
+
                 const listaDeCategoriaPlatos = await categoriaPlatoController.get();
                 setCatetoriaPlatos(listaDeCategoriaPlatos);
 
@@ -68,11 +94,9 @@ const MenuAdmin = () => {
                 setServicios(listaDeServicios);
 
                 for (const element of listaDeServicios) {
-                    console.log(element);
+                    // console.log(element);
                     añadirOpción({ value: element.Id, label: element.nombre });
                 }
-
-
 
 
             } catch (error) {
@@ -95,11 +119,6 @@ const MenuAdmin = () => {
         // console.log(servicios);
     }, [servicios])
 
-    function obtenerSeleccionados() {
-        const selectElement = document.getElementById("miSelect");
-        const opcionesSeleccionadas = Array.from(selectElement.selectedOptions).map(option => option.value);
-        console.log(opcionesSeleccionadas); // Mostrar los IDs seleccionados
-    }
 
 
     return (
@@ -127,6 +146,16 @@ const MenuAdmin = () => {
                         <button onClick={() => console.log(selectedOptions[item.Id]?.map(option => option.value))}>
                             Obtener Seleccionados
                         </button>
+
+                        <Form.Check
+                            key={item.Id}
+                            type={'checkbox'}
+                            id={`${item.Id}`}
+                            label={item.nombre}
+                            checked={checkboxes[item.Id] || false}
+                            onChange={handleCheckboxChange(item)}
+
+                        />
 
                     </div>
 
