@@ -56,21 +56,19 @@ const Visita = () => {
                     <Modal.Body>
                         <VisitaForm onSubmit={handleFormSubmit} />
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Cerrar
-                        </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            Subir Opinión
-                        </Button>
-                    </Modal.Footer>
+
                 </Modal>
 
                 <h2>Visita</h2>
 
                 {visitas.map(item => {
                     if (item.active == 1) {
-                        return <p>{item.nombre}</p>;
+                        return <div>
+                            -------------------------------------------------------------------------------
+                            <h2>Nombre: {item.nombre}</h2>
+                            <h2>Correo: {item.correo}</h2>
+                            <h2>Texto: {item.texto}</h2>
+                        </div>;
                     }
                     return null;
                 })}

@@ -112,7 +112,7 @@ const MenuAdmin = () => {
     }, [platos])
 
     useEffect(() => {
-        // console.log(categoriaPlatos);
+        console.log(categoriaPlatos);
     }, [categoriaPlatos])
 
     useEffect(() => {
@@ -132,8 +132,6 @@ const MenuAdmin = () => {
                     <div>
 
                         <h4>{item.nombre}</h4>
-
-                        <br></br>
                         <label htmlFor="servicio">Servicio</label><br></br>
 
                         <Select
@@ -143,19 +141,21 @@ const MenuAdmin = () => {
                             onChange={handleChange(item.Id)}
                             placeholder="Seleccione una o más opciones"
                         />
-                        <button onClick={() => console.log(selectedOptions[item.Id]?.map(option => option.value))}>
+                        {/* <button onClick={() => console.log(selectedOptions[item.Id]?.map(option => option.value))}>
                             Obtener Seleccionados
-                        </button>
+                        </button> */}
 
                         <Form.Check
                             key={item.Id}
                             type={'checkbox'}
                             id={`${item.Id}`}
-                            label={item.nombre}
+                            label="Activar a la carta"
                             checked={checkboxes[item.Id] || false}
                             onChange={handleCheckboxChange(item)}
 
                         />
+
+                        <br></br>
 
                     </div>
 

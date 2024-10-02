@@ -32,7 +32,14 @@ const ReservaAdmin = () => {
             <BaseLayout>
                 <h2>Reservas</h2>
                 {reservas.map((item) => (
-                    <h3 key={item.Id} >{item.nombre}</h3>
+                    <div key={item.Id}>
+                        -------------------------------------------------------------------------------
+                        <h2>Nombre: {item.nombre}</h2>
+                        <h2>Correo: {item.correo}</h2>
+                        <h2>Telefono: {item.telefono}</h2>
+                        <h2>Fecha: {item.fecha}</h2>
+
+                    </div>
                 ))}
             </BaseLayout>
         </>

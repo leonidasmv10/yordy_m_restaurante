@@ -37,11 +37,11 @@ const VisitaForm = ({ onSubmit }) => {
                     id="texto" />
             </div>
 
-
+            <br></br>
             <div className="form-group">
                 <button
                     type="submit"
-                    className="btn btn-primary">Create
+                    className="btn btn-primary">Subir Opinión
                 </button>
             </div>
         </form>

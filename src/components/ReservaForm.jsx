@@ -70,10 +70,12 @@ const ReservaForm = ({ onSubmit }) => {
                 </div>
             </div>
 
+            <br></br>
+
             <div className="form-group">
                 <button
                     type="submit"
-                    className="btn btn-primary">Create
+                    className="btn btn-primary">Crear reserva
                 </button>
             </div>
         </form>

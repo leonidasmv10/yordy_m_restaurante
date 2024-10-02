@@ -53,13 +53,28 @@ const Menu = () => {
         <>
             <BaseLayout>
                 <h2>Menu</h2>
+                {categoriaPlatos.map(categoria => (
+                    <li key={categoria.id}>
+                        <h2>{categoria.nombre}</h2>
+                        <ul>
+                            {platos.map(plato => {
+                                if (plato.activo == 1 && plato.categoria_plato_id === categoria.Id) {
+                                    return <div>
 
-                <h3>--- Platos ---</h3>
-                {platos.map((item) => (
-                    <h3 key={item.Id} >{item.nombre} - {item.categoria_plato_id} - {item.lista_servicio_id}</h3>
+                                        <li key={plato.Id}>{plato.nombre} - Precio: {plato.precio} euros</li>
+                                        <p>Servicios: </p>
+
+                                    </div>
+                                }
+                                return null;
+                            })}
+                        </ul>
+
+                    </li>
                 ))}
 
-                <h3>--- Categoria Platos ---</h3>
+
+                {/* <h3>--- Categoria Platos ---</h3>
                 {categoriaPlatos.map((item) => (
                     <h3 key={item.Id} >{item.nombre}</h3>
                 ))}
@@ -67,7 +82,7 @@ const Menu = () => {
                 <h3>--- Servicios ---</h3>
                 {servicios.map((item) => (
                     <h3 key={item.Id} >{item.nombre}</h3>
-                ))}
+                ))} */}
 
             </BaseLayout>
         </>

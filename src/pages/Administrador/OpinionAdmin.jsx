@@ -63,13 +63,18 @@ const OpinionAdmin = () => {
                     <div key={item.Id}>
 
 
-                        <p>{item.nombre} </p>
+                        <div>
+                            -------------------------------------------------------------------------------
+                            <h2>Nombre: {item.nombre}</h2>
+                            <h2>Correo: {item.correo}</h2>
+                            <h2>Texto: {item.texto}</h2>
+                        </div>
 
                         <Form.Check
                             key={item.Id}
                             type={'checkbox'}
                             id={`${item.Id}`}
-                            label={item.nombre}
+                            label="Mostrar al público"
                             checked={checkboxes[item.Id] || false}
                             onChange={handleCheckboxChange(item)}
 
