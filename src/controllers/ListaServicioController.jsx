@@ -1,9 +1,9 @@
 import BaseController from "./BaseController";
 
-class MenuController extends BaseController {
+class ListaServicioController extends BaseController {
     constructor() {
         super("m9z1mpqi1nvneth");
     }
 }
 
-export default MenuController;
+export default ListaServicioController;
