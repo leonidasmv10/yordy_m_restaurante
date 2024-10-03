@@ -105,6 +105,8 @@ const MenuAdmin = () => {
             // Detectar los IDs eliminados
             const previousValues = previousSelected.map((option) => option.value);
             const removedValues = previousValues.filter((value) => !currentValues.includes(value));
+
+            let currentValuesLenght = currentValues.length;
             if (removedValues.length > 0) {
                 console.log(`Opciones eliminadas para el plato con ID ${platoId}:`, removedValues);
                 for (const serviceId of removedValues) {
@@ -115,14 +117,13 @@ const MenuAdmin = () => {
                     }
                 }
             }
-
-            else if (currentValues.length > 0) {
+            else if (currentValuesLenght > 0) {
                 // Imprimir opciones actuales
                 console.log(`Opciones seleccionadas para el plato con ID ${platoId}:`, currentValues);
 
                 const newService = {
                     "plato_id": platoId,
-                    "servicio_id": currentValues[currentValues.length - 1]
+                    "servicio_id": currentValues[currentValuesLenght - 1]
                 }
                 listaServicioController.add(newService);
             }
