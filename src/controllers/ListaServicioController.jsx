@@ -6,7 +6,7 @@ class ListaServicioController extends BaseController {
     }
 
     async get_services_id_by_dish_id(id) {
-        const url = `${this.url_nocodb}?where=(plato_id,eq,${id})`; // Uso de plantillas de cadena
+        const url = `${this.url_nocodb}?where=(plato_id,eq,${id})`;
         let servicesIds = [];
 
         const options = {
@@ -25,7 +25,7 @@ class ListaServicioController extends BaseController {
             console.error("Error al obtener los IDs de servicios:", e);
         }
 
-        return servicesIds; // Devuelve la lista de IDs de servicios
+        return servicesIds;
     }
 }
 

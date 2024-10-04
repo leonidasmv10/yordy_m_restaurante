@@ -22,12 +22,12 @@ class PlatoController extends BaseController {
             return data.list;
         } catch (e) {
             console.error("Error al obtener los datos:", e);
-            return []; // Retorna un array vacío en caso de error
+            return []; 
         }
     }
 
     async set_active(id, update) {
-        const url = this.url_nocodb; // Utiliza la URL del controlador base
+        const url = this.url_nocodb;
 
         const updatedData = {
             Id: id,

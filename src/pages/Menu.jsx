@@ -55,7 +55,7 @@ const Menu = () => {
                         <div key={categoria.Id}>
                             <h2>{categoria.nombre}</h2>
                             {platosFiltrados.length === 0 ? (
-                                <p>No hay platos disponibles en esta categoría.</p> // Mensaje si no hay platos
+                                <p>No hay platos disponibles en esta categoría.</p> 
                             ) : (
                                 <Row>
                                     {platosFiltrados.map((plato) => (

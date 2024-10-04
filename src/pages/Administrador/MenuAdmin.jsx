@@ -27,11 +27,9 @@ const MenuAdmin = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Cargar la lista de platos
                 const listaDePlatos = await platoController.get();
                 setPlatos(listaDePlatos);
 
-                // // Inicializar checkboxes
                 if (listaDePlatos && listaDePlatos.length > 0) {
                     const initialCheckboxes = listaDePlatos.reduce((acc, plato) => {
                         acc[plato.Id] = plato.activo == 1;
@@ -40,53 +38,28 @@ const MenuAdmin = () => {
                     setCheckboxes(initialCheckboxes);
                 }
 
-
-                // Cargar los servicios disponibles y crear las opciones para el select
                 const listaDeServicios = await servicioController.get();
                 setServicios(listaDeServicios);
 
-
-                // Cargar los servicios disponibles y crear las opciones para el select
                 const listaContenedorDeServicios = await listaServicioController.get();
                 setListaDeServicios(listaContenedorDeServicios);
-                // console.log(listaContenedorDeServicios);
 
-                // await new Promise(resolve => setTimeout(resolve, 200))
-
-                // Añadir servicios como opciones en el select
                 const nuevasOpciones = listaDeServicios.map(element => ({
                     value: element.Id,
                     label: element.nombre
                 }));
                 setOptions(nuevasOpciones);
 
-                // 3. Asignar los servicios seleccionados a `selectedOptions`
                 const initialSelectedOptions = {};
 
-                // for (const plato of listaDePlatos) {
-
-                //     const servicesIds = await listaServicioController.get_services_id_by_dish_id(plato.Id);
-                //     console.log(servicesIds);
-                //     await new Promise(resolve => setTimeout(resolve, 200))
-
-                //     if (servicesIds) {
-                //         initialSelectedOptions[plato.Id] = nuevasOpciones.filter(option =>
-                //             servicesIds.includes(option.value)
-                //         );
-                //     }
-                // }
-
                 for (const plato of listaDePlatos) {
-                    // console.log(plato.nombre + " - ID: " + plato.Id);
                     let servicesIds = [];
                     for (const listaServicio of listaContenedorDeServicios) {
                         if (plato.Id == listaServicio.plato_id) {
-                            // console.log(listaServicio.servicio_id);
                             servicesIds.push(listaServicio.servicio_id);
                         }
                     }
                     if (servicesIds) {
-                        // console.log(servicesIds);
                         initialSelectedOptions[plato.Id] = nuevasOpciones.filter(option =>
                             servicesIds.includes(option.value)
                         );
@@ -107,13 +80,11 @@ const MenuAdmin = () => {
             const previousSelected = prevOptions[platoId] || [];
             const currentValues = (selected || []).map((option) => option.value);
 
-            // Detectar los IDs eliminados
             const previousValues = previousSelected.map((option) => option.value);
             const removedValues = previousValues.filter((value) => !currentValues.includes(value));
 
             let currentValuesLenght = currentValues.length;
             if (removedValues.length > 0) {
-                console.log(`Opciones eliminadas para el plato con ID ${platoId}:`, removedValues);
                 for (const serviceId of removedValues) {
                     for (const listaServicio of listaDeServicios) {
                         if (serviceId == listaServicio.servicio_id) {
@@ -123,9 +94,6 @@ const MenuAdmin = () => {
                 }
             }
             else if (currentValuesLenght > 0) {
-                // Imprimir opciones actuales
-                console.log(`Opciones seleccionadas para el plato con ID ${platoId}:`, currentValues);
-
                 const newService = {
                     "plato_id": platoId,
                     "servicio_id": currentValues[currentValuesLenght - 1]
@@ -157,12 +125,8 @@ const MenuAdmin = () => {
 
             <Row>
                 {platos && platos.length > 0 && platos.map((item) => (
-
-
                     <Col xs={6} sm={4} md={3} lg={3} key={item.Id}>
-
                         <PlatoCard key={item.Id} plato={item}>
-
                             <Select
                                 isMulti
                                 options={options}
@@ -170,7 +134,6 @@ const MenuAdmin = () => {
                                 onChange={handleChange(item.Id)}
                                 placeholder="Seleccione una o más servicios"
                             />
-
                             <Form.Check
                                 type={'checkbox'}
                                 id={`${item.Id}`}
