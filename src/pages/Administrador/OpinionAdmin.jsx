@@ -15,7 +15,7 @@ const OpinionAdmin = () => {
     const opinionController = new OpinionController();
     const [checkboxes, setCheckboxes] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedId, setSelectedId] = useState(null); // Estado para almacenar el ID seleccionado para eliminar
+    const [selectedId, setSelectedId] = useState(null); 
 
     const handleCheckboxChange = (item) => (e) => {
         item.active = e.target.checked ? 1 : 0;
@@ -35,11 +35,11 @@ const OpinionAdmin = () => {
                 setVisitas(listaDeVisitas);
 
                 const initialCheckboxes = listaDeVisitas.reduce((acc, visita) => {
-                    acc[visita.Id] = visita.active === 1; // Aquí asignas el estado a cada checkbox
+                    acc[visita.Id] = visita.active === 1;
                     return acc;
                 }, {});
 
-                setCheckboxes(initialCheckboxes); // Actualiza el estado
+                setCheckboxes(initialCheckboxes);
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
             }
@@ -48,24 +48,14 @@ const OpinionAdmin = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        console.log(visitas);
-    }, [visitas]);
-
     const handleDelete = (id) => {
-        // Lógica de la acción a realizar
-        console.log('Acción confirmada con el ID: ' + id);
-        // Aquí podrías llamar a opinionController para eliminar la opinión
-        setVisitas((prev) => prev.filter((item) => item.Id !== id)); // Opcional: elimina de la lista
-
+        setVisitas((prev) => prev.filter((item) => item.Id !== id));
         opinionController.delete(id);
     };
 
     return (
         <>
             <BaseLayout>
-                <h2>Opiniones</h2>
-
                 <Row>
                     {visitas.map(item => {
 
@@ -85,7 +75,7 @@ const OpinionAdmin = () => {
                                         onChange={handleCheckboxChange(item)}
                                     />
                                     <Button variant="danger" onClick={() => {
-                                        setSelectedId(item.Id); // Guardar el ID en el estado
+                                        setSelectedId(item.Id);
                                         setIsModalOpen(true);
                                     }}>
                                         Eliminar
@@ -101,8 +91,8 @@ const OpinionAdmin = () => {
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onConfirm={() => {
-                        handleDelete(selectedId); // Llamar a handleDelete con el ID guardado
-                        setIsModalOpen(false); // Cerrar el modal después de confirmar
+                        handleDelete(selectedId);
+                        setIsModalOpen(false);
                     }}
                     message="¿Estás seguro de que deseas eliminar esta opinión de forma definitiva?"
                 />

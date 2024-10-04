@@ -3,7 +3,7 @@ function Inicio() {
   return (
     <>
       <BaseLayout>
-        <h2>Hola Mundo</h2>
+        <h2>RESTAURANT APP</h2>
       </BaseLayout>
     </>
   )

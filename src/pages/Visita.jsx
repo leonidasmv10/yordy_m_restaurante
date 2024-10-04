@@ -57,9 +57,6 @@ const Visita = () => {
     return (
         <>
             <BaseLayout>
-
-
-
                 <Button variant="primary" onClick={handleShow}>
                     Registra tu opinión
                 </Button>
@@ -71,7 +68,6 @@ const Visita = () => {
                     <Modal.Body>
                         <VisitaForm onSubmit={handleFormSubmit} />
                     </Modal.Body>
-
                 </Modal>
                 <br></br><br></br><br></br>
                 <Row>

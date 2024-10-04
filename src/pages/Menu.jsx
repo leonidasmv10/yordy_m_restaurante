@@ -71,6 +71,7 @@ const Menu = () => {
                                                                 .map(servicio => <li key={servicio.Id}>{servicio.nombre}</li>)
                                                         )}
                                                 </ul>
+                                                <p>Actualizado el {plato.UpdatedAt}</p>
                                             </PlatoCard>
                                         </Col>
                                     ))}

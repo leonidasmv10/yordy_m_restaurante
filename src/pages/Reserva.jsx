@@ -5,9 +5,6 @@ import ReservaForm from "../components/ReservaForm";
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 import ConfirmationModal from "../components/ConfirmationModal";
 
 const Reserva = () => {
