@@ -6,18 +6,22 @@ import VisitaForm from '../components/VisitaForm'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import Card from 'react-bootstrap/Card';
+import ConfirmationModal from "../components/ConfirmationModal";
+
+import { toast } from 'react-toastify';
 
 const Visita = () => {
 
     const [visitas, setVisitas] = useState([]);
-    const opinionController = new OpinionController();
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dataVisita, setDataVisita] = useState(null);
     const [show, setShow] = useState(false);
+
+    const opinionController = new OpinionController();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -36,20 +40,25 @@ const Visita = () => {
         fetchData();
     }, [])
 
-    useEffect(() => {
-        console.log(visitas);
-    }, [visitas])
+    const handleAddOpinion = async () => {
+        if (!dataVisita) return;
+        await opinionController.add(dataVisita);
+        setIsModalOpen(false);
+        handleClose();
+        toast.success('¡Operación realizada correctamente!');
+    };
 
     const handleFormSubmit = (data) => {
         data = { ...data, active: 0 }
-        console.log("Datos del formulario:", data);
-
-        opinionController.add(data);
+        setDataVisita(data);
+        setIsModalOpen(true);
     };
 
     return (
         <>
             <BaseLayout>
+
+
 
                 <Button variant="primary" onClick={handleShow}>
                     Registra tu opinión
@@ -65,27 +74,32 @@ const Visita = () => {
 
                 </Modal>
                 <br></br><br></br><br></br>
-                <Container>
-                    <Row>
-                        {visitas.map(item => {
-                            if (item.active == 1) {
-                                return <Col>
-                                    <Card style={{ width: '18rem' }}>
-                                        <Card.Body>
-                                            <Card.Title><strong>{item.nombre}</strong> </Card.Title>
-                                            <Card.Subtitle className="mb-2 text-muted">{item.correo}</Card.Subtitle>
-                                            <Card.Text>
-                                                {item.texto}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            }
-                            return null;
-                        })}
+                <Row>
+                    {visitas.map(item => {
+                        if (item.active == 1) {
+                            return <Col xs={6} sm={4} md={3} lg={3} key={item.Id}>
+                                <Card style={{ width: '18rem' }}>
+                                    <Card.Body>
+                                        <Card.Title><strong>{item.nombre}</strong> </Card.Title>
+                                        <Card.Subtitle className="mb-2 text-muted">{item.correo}</Card.Subtitle>
+                                        <Card.Text>
+                                            {item.texto}
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        }
+                        return null;
+                    })}
 
-                    </Row>
-                </Container>
+                </Row>
+
+                <ConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={handleAddOpinion}
+                    message="¿Estás seguro de que quiere subir su opinión?"
+                />
             </BaseLayout>
         </>
     )

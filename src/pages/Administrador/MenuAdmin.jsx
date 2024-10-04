@@ -7,6 +7,11 @@ import PlatoController from "../../controllers/PlatoController";
 import ServicioController from '../../controllers/ServicioController';
 import ListaServicioController from "../../controllers/ListaServicioController";
 
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import PlatoCard from "../../components/PlatoCard";
+
 const MenuAdmin = () => {
     const [platos, setPlatos] = useState([]);
     const [servicios, setServicios] = useState([]);
@@ -148,33 +153,36 @@ const MenuAdmin = () => {
 
     return (
         <BaseLayout>
-            <h2>Admin Menú</h2>
-            <label htmlFor="servicio">Platos</label><br />
+            <h2>Gestionar Menú Semanal</h2>
 
-            {platos && platos.length > 0 && platos.map((item) => (
-                <div key={item.Id}>
-                    <h4>{item.nombre}</h4>
-                    <label htmlFor="servicio">Servicio</label><br />
+            <Row>
+                {platos && platos.length > 0 && platos.map((item) => (
 
-                    <Select
-                        isMulti
-                        options={options}
-                        value={selectedOptions[item.Id] || []}
-                        onChange={handleChange(item.Id)}
-                        placeholder="Seleccione una o más opciones"
-                    />
 
-                    <Form.Check
-                        type={'checkbox'}
-                        id={`${item.Id}`}
-                        label="Activar a la carta"
-                        checked={checkboxes[item.Id] || false}
-                        onChange={handleCheckboxChange(item)}
-                    />
-                    <br />
-                </div>
-            ))}
+                    <Col xs={6} sm={4} md={3} lg={3} key={item.Id}>
 
+                        <PlatoCard key={item.Id} plato={item}>
+
+                            <Select
+                                isMulti
+                                options={options}
+                                value={selectedOptions[item.Id] || []}
+                                onChange={handleChange(item.Id)}
+                                placeholder="Seleccione una o más servicios"
+                            />
+
+                            <Form.Check
+                                type={'checkbox'}
+                                id={`${item.Id}`}
+                                label="Menú Semanal"
+                                checked={checkboxes[item.Id] || false}
+                                onChange={handleCheckboxChange(item)}
+                            />
+                        </PlatoCard>
+                        <br></br>
+                    </Col>
+                ))}
+            </Row>
         </BaseLayout>
     );
 };

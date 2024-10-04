@@ -1,5 +1,5 @@
 import Header from '../shared/Header';
-
+import Container from 'react-bootstrap/Container';
 
 const BaseLayout = props => {
     const { children } = props;
@@ -7,11 +7,13 @@ const BaseLayout = props => {
         <div className="layout-container">
             <Header />
             <main>
-                <div style={{ marginLeft: '50px', marginTop: '20px' }}>
-                    {children}
+                <div style={{ marginTop: '20px' }}>
+                    <Container>
+                        {children}
+                    </Container>
                 </div>
             </main>
-            
+
         </div>
     )
 }

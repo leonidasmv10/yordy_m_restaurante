@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import BaseLayout from './components/layouts/BaseLayout';
-import Header from './components/shared/Header';
 import Inicio from './pages/Inicio';
 import Contacto from './pages/Contacto';
 import Carta from './pages/Carta';

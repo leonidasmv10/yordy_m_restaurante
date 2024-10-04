@@ -2,6 +2,7 @@ import BaseLayout from '../../components/layouts/BaseLayout';
 import React, { useEffect, useState } from 'react';
 
 import ReservaController from '../../controllers/ReservaController';
+import Table from 'react-bootstrap/Table';
 
 const ReservaAdmin = () => {
 
@@ -9,7 +10,6 @@ const ReservaAdmin = () => {
     const reservaController = new ReservaController();
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const listaDeReservas = await reservaController.get();
@@ -20,29 +20,37 @@ const ReservaAdmin = () => {
         };
 
         fetchData();
-    }, [])
-
-    useEffect(() => {
-        console.log(reservas);
-    }, [reservas])
-
+    }, []);
 
     return (
-        <>
-            <BaseLayout>
-                <h2>Reservas</h2>
-                {reservas.map((item) => (
-                    <div key={item.Id}>
-                        -------------------------------------------------------------------------------
-                        <h2>Nombre: {item.nombre}</h2>
-                        <h2>Correo: {item.correo}</h2>
-                        <h2>Telefono: {item.telefono}</h2>
-                        <h2>Fecha: {item.fecha}</h2>
+        <BaseLayout>
+            <h2>Reservas</h2>
+            {reservas.length === 0 ? (
+                <p>No hay reservas disponibles.</p>
+            ) : (
+                <Table striped bordered hover responsive>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reservas.map((item) => (
+                            <tr key={item.Id}>
+                                <td>{item.nombre}</td>
+                                <td>{item.correo}</td>
+                                <td>{item.telefono}</td>
+                                <td>{item.fecha}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
+        </BaseLayout>
+    );
+};
 
-                    </div>
-                ))}
-            </BaseLayout>
-        </>
-    )
-}
 export default ReservaAdmin;

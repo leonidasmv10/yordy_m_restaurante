@@ -6,7 +6,6 @@ import ServicioController from '../controllers/ServicioController';
 import ListaServicioController from "../controllers/ListaServicioController";
 import PlatoCard from '../components/PlatoCard';
 
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -45,44 +44,44 @@ const Menu = () => {
 
     return (
         <BaseLayout>
-            <Container>
-                {categoriaPlatos.length === 0 ? (
-                    <li>No hay categorías disponibles.</li>
-                ) : (
-                    categoriaPlatos.map((categoria) => {
-                        const platosFiltrados = platos.filter((plato) => plato.activo === 1 && plato.categoria_plato_id === categoria.Id);
-                        
-                        return (
-                            <div key={categoria.Id}>
-                                <h2>{categoria.nombre}</h2>
-                                {platosFiltrados.length === 0 ? (
-                                    <p>No hay platos disponibles en esta categoría.</p> // Mensaje si no hay platos
-                                ) : (
-                                    <Row>
-                                        {platosFiltrados.map((plato) => (
-                                            <Col xs={6} sm={4} md={3} lg={3} key={plato.Id}>
-                                                <PlatoCard plato={plato}>
-                                                    <p><strong>Servicios:</strong></p>
-                                                    <ul>
-                                                        {listaDeServicios
-                                                            .filter((listaDeServicio) => listaDeServicio.plato_id === plato.Id)
-                                                            .flatMap((listaDeServicio) =>
-                                                                servicios
-                                                                    .filter(servicio => listaDeServicio.servicio_id === servicio.Id)
-                                                                    .map(servicio => <li key={servicio.Id}>{servicio.nombre}</li>)
-                                                            )}
-                                                    </ul>
-                                                </PlatoCard>
-                                            </Col>
-                                        ))}
-                                    </Row>
-                                )}
-                                <br />
-                            </div>
-                        );
-                    })
-                )}
-            </Container>
+
+            {categoriaPlatos.length === 0 ? (
+                <li>No hay categorías disponibles.</li>
+            ) : (
+                categoriaPlatos.map((categoria) => {
+                    const platosFiltrados = platos.filter((plato) => plato.activo === 1 && plato.categoria_plato_id === categoria.Id);
+
+                    return (
+                        <div key={categoria.Id}>
+                            <h2>{categoria.nombre}</h2>
+                            {platosFiltrados.length === 0 ? (
+                                <p>No hay platos disponibles en esta categoría.</p> // Mensaje si no hay platos
+                            ) : (
+                                <Row>
+                                    {platosFiltrados.map((plato) => (
+                                        <Col xs={6} sm={4} md={3} lg={3} key={plato.Id}>
+                                            <PlatoCard plato={plato}>
+                                                <p><strong>Servicios:</strong></p>
+                                                <ul>
+                                                    {listaDeServicios
+                                                        .filter((listaDeServicio) => listaDeServicio.plato_id === plato.Id)
+                                                        .flatMap((listaDeServicio) =>
+                                                            servicios
+                                                                .filter(servicio => listaDeServicio.servicio_id === servicio.Id)
+                                                                .map(servicio => <li key={servicio.Id}>{servicio.nombre}</li>)
+                                                        )}
+                                                </ul>
+                                            </PlatoCard>
+                                        </Col>
+                                    ))}
+                                </Row>
+                            )}
+                            <br />
+                        </div>
+                    );
+                })
+            )}
+
         </BaseLayout>
     );
 };

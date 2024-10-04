@@ -4,7 +4,6 @@ import PlatoController from '../controllers/PlatoController';
 import CategoriaPlatoController from '../controllers/CategoriaPlatoController';
 import PlatoCard from '../components/PlatoCard';
 
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -35,23 +34,21 @@ const Carta = () => {
 
     return (
         <BaseLayout>
-            <Container>
-                {categoriaPlatos.map(categoria => (
-                    <div key={categoria.Id}>
-                        <h2>{categoria.nombre}</h2>
-                        <Row>
-                            {platos
-                                .filter(plato => plato.categoria_plato_id === categoria.Id)
-                                .map(plato => (
-                                    <Col xs={6} sm={4} md={3} lg={3} key={plato.Id}>
-                                            <PlatoCard plato={plato} />
-                                    </Col>
-                                ))}
-                        </Row>
-                        <br></br>
-                    </div>
-                ))}
-            </Container>
+            {categoriaPlatos.map(categoria => (
+                <div key={categoria.Id}>
+                    <h2>{categoria.nombre}</h2>
+                    <Row>
+                        {platos
+                            .filter(plato => plato.categoria_plato_id === categoria.Id)
+                            .map(plato => (
+                                <Col xs={6} sm={4} md={3} lg={3} key={plato.Id}>
+                                    <PlatoCard plato={plato} />
+                                </Col>
+                            ))}
+                    </Row>
+                    <br></br>
+                </div>
+            ))}
         </BaseLayout>
     );
 };

@@ -5,6 +5,11 @@ import OpinionController from '../../controllers/OpinionController';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { Button } from 'react-bootstrap';
 
+import Card from 'react-bootstrap/Card';
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 const OpinionAdmin = () => {
     const [visitas, setVisitas] = useState([]);
     const opinionController = new OpinionController();
@@ -60,41 +65,47 @@ const OpinionAdmin = () => {
         <>
             <BaseLayout>
                 <h2>Opiniones</h2>
-                {visitas.map(item => (
-                    <div key={item.Id}>
-                        <div>
-                            -------------------------------------------------------------------------------
-                            <h2>Nombre: {item.nombre}</h2>
-                            <h2>Correo: {item.correo}</h2>
-                            <h2>Texto: {item.texto}</h2>
-                        </div>
 
-                        <Form.Check
-                            type={'checkbox'}
-                            id={`${item.Id}`}
-                            label="Mostrar al público"
-                            checked={checkboxes[item.Id] || false}
-                            onChange={handleCheckboxChange(item)}
-                        />
+                <Row>
+                    {visitas.map(item => {
 
-                        <Button variant="danger" onClick={() => {
-                            setSelectedId(item.Id); // Guardar el ID en el estado
-                            setIsModalOpen(true);
-                        }}>
-                            Eliminar
-                        </Button>
+                        return <Col xs={6} sm={4} md={3} lg={3} key={item.Id}>
+                            <Card>
+                                <Card.Header>{item.correo}</Card.Header>
+                                <Card.Body>
+                                    <Card.Title>{item.nombre}</Card.Title>
+                                    <Card.Text>
+                                        {item.texto}
+                                    </Card.Text>
+                                    <Form.Check
+                                        type={'checkbox'}
+                                        id={`${item.Id}`}
+                                        label="Mostrar al público"
+                                        checked={checkboxes[item.Id] || false}
+                                        onChange={handleCheckboxChange(item)}
+                                    />
+                                    <Button variant="danger" onClick={() => {
+                                        setSelectedId(item.Id); // Guardar el ID en el estado
+                                        setIsModalOpen(true);
+                                    }}>
+                                        Eliminar
+                                    </Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    })}
 
-                        <ConfirmationModal
-                            isOpen={isModalOpen}
-                            onClose={() => setIsModalOpen(false)}
-                            onConfirm={() => {
-                                handleDelete(selectedId); // Llamar a handleDelete con el ID guardado
-                                setIsModalOpen(false); // Cerrar el modal después de confirmar
-                            }}
-                            message="¿Estás seguro de que deseas eliminar esta opinión de forma definitiva?"
-                        />
-                    </div>
-                ))}
+                </Row>
+
+                <ConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={() => {
+                        handleDelete(selectedId); // Llamar a handleDelete con el ID guardado
+                        setIsModalOpen(false); // Cerrar el modal después de confirmar
+                    }}
+                    message="¿Estás seguro de que deseas eliminar esta opinión de forma definitiva?"
+                />
             </BaseLayout>
         </>
     );
