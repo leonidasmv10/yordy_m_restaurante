@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import BaseLayout from '../components/layouts/BaseLayout';
-
-import PlatoController from '../controllers/PlatoController'
-import CategoriaPlatoController from '../controllers/CategoriaPlatoController'
-import ServicioController from '../controllers/ServicioController'
+import PlatoController from '../controllers/PlatoController';
+import CategoriaPlatoController from '../controllers/CategoriaPlatoController';
+import ServicioController from '../controllers/ServicioController';
 import ListaServicioController from "../controllers/ListaServicioController";
+import PlatoCard from '../components/PlatoCard';
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const Menu = () => {
-
     const [platos, setPlatos] = useState([]);
-    const [categoriaPlatos, setCatetoriaPlatos] = useState([]);
+    const [categoriaPlatos, setCategoriaPlatos] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [listaDeServicios, setListaDeServicios] = useState([]);
 
@@ -19,98 +22,69 @@ const Menu = () => {
     const listaServicioController = new ListaServicioController();
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
-                const listaDePlatos = await platoController.get();
+                const [listaDePlatos, listaDeCategoriaPlatos, listaDeServicios, listaContenedorDeServicios] = await Promise.all([
+                    platoController.get(),
+                    categoriaPlatoController.get(),
+                    servicioController.get(),
+                    listaServicioController.get(),
+                ]);
+
                 setPlatos(listaDePlatos);
-
-                const listaDeCategoriaPlatos = await categoriaPlatoController.get();
-                setCatetoriaPlatos(listaDeCategoriaPlatos);
-
-                const listaDeServicios = await servicioController.get();
+                setCategoriaPlatos(listaDeCategoriaPlatos);
                 setServicios(listaDeServicios);
-
-                const listaContenedorDeServicios = await listaServicioController.get();
                 setListaDeServicios(listaContenedorDeServicios);
-
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
             }
         };
 
         fetchData();
-    }, [])
-
-    useEffect(() => {
-        console.log(platos);
-    }, [platos])
-
-    useEffect(() => {
-        console.log(categoriaPlatos);
-    }, [categoriaPlatos])
-
-    useEffect(() => {
-        console.log(servicios);
-    }, [servicios])
-
+    }, []);
 
     return (
-        <>
-            <BaseLayout>
-                <h2>Menu</h2>
-                <ul>
-                    {categoriaPlatos.length === 0 ? (
-                        <li>No hay categorías disponibles.</li>
-                    ) : (
-                        categoriaPlatos.map((categoria) => (
-                            <li key={categoria.id}>
+        <BaseLayout>
+            <Container>
+                {categoriaPlatos.length === 0 ? (
+                    <li>No hay categorías disponibles.</li>
+                ) : (
+                    categoriaPlatos.map((categoria) => {
+                        const platosFiltrados = platos.filter((plato) => plato.activo === 1 && plato.categoria_plato_id === categoria.Id);
+                        
+                        return (
+                            <div key={categoria.Id}>
                                 <h2>{categoria.nombre}</h2>
-                                <ul>
-                                    {platos
-                                        .filter((plato) => plato.activo === 1 && plato.categoria_plato_id === categoria.Id)
-                                        .map((plato) => (
-                                            <div key={plato.Id}>
-                                                <li>
-                                                    {plato.nombre} - Precio: {plato.precio} euros
-                                                </li>
-                                                <p>Servicios:</p>
-                                                <ul>
-                                                    {listaDeServicios
-                                                        .filter((listaDeServicio) => listaDeServicio.plato_id === plato.Id)
-                                                        .map((listaDeServicio) =>
-                                                            servicios.map((servicio) => {
-                                                                if (listaDeServicio.servicio_id === servicio.Id) {
-                                                                    return (
-                                                                        <li key={servicio.Id}>{servicio.nombre}</li>
-                                                                    );
-                                                                }
-                                                                return null;
-                                                            })
-                                                        )}
-                                                </ul>
-                                            </div>
+                                {platosFiltrados.length === 0 ? (
+                                    <p>No hay platos disponibles en esta categoría.</p> // Mensaje si no hay platos
+                                ) : (
+                                    <Row>
+                                        {platosFiltrados.map((plato) => (
+                                            <Col xs={6} sm={4} md={3} lg={3} key={plato.Id}>
+                                                <PlatoCard plato={plato}>
+                                                    <p><strong>Servicios:</strong></p>
+                                                    <ul>
+                                                        {listaDeServicios
+                                                            .filter((listaDeServicio) => listaDeServicio.plato_id === plato.Id)
+                                                            .flatMap((listaDeServicio) =>
+                                                                servicios
+                                                                    .filter(servicio => listaDeServicio.servicio_id === servicio.Id)
+                                                                    .map(servicio => <li key={servicio.Id}>{servicio.nombre}</li>)
+                                                            )}
+                                                    </ul>
+                                                </PlatoCard>
+                                            </Col>
                                         ))}
-                                </ul>
-                            </li>
-                        ))
-                    )}
-                </ul>
+                                    </Row>
+                                )}
+                                <br />
+                            </div>
+                        );
+                    })
+                )}
+            </Container>
+        </BaseLayout>
+    );
+};
 
-
-
-                {/* <h3>--- Categoria Platos ---</h3>
-                {categoriaPlatos.map((item) => (
-                    <h3 key={item.Id} >{item.nombre}</h3>
-                ))}
-
-                <h3>--- Servicios ---</h3>
-                {servicios.map((item) => (
-                    <h3 key={item.Id} >{item.nombre}</h3>
-                ))} */}
-
-            </BaseLayout>
-        </>
-    )
-}
 export default Menu;

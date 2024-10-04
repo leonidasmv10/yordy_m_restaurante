@@ -1,57 +1,42 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import BaseLayout from '../components/layouts/BaseLayout';
-
 import ReservaController from "../controllers/ReservaController";
-
 import ReservaForm from "../components/ReservaForm";
 import { format } from 'date-fns';
-
+import { toast } from 'react-toastify';
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const Reserva = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dataReserva, setDataReserva] = useState(null);
 
-    const [reservas, setReservas] = useState([]);
     const reservaController = new ReservaController();
+
+    const handleAddReserva = async () => {
+        if (!dataReserva) return;
+        await reservaController.add(dataReserva);
+        setIsModalOpen(false);
+        toast.success('¡Operación realizada correctamente!');
+    };
 
     const handleFormSubmit = (data) => {
         const formattedStartDate = format(data.fecha, 'dd/MM/yyyy HH:mm');
-        data = { ...data, fecha: formattedStartDate }
-        console.log("Datos del formulario:", data);
-
-        reservaController.add(data);
+        const reservaData = { ...data, fecha: formattedStartDate };
+        setDataReserva(reservaData);
+        setIsModalOpen(true);
     };
 
-
-    useEffect(() => {
-
-        const fetchData = async () => {
-            try {
-                const listaDeReservas = await reservaController.get();
-                setReservas(listaDeReservas);
-            } catch (error) {
-                console.error("Error al obtener los datos:", error);
-            }
-        };
-
-        fetchData();
-    }, [])
-
-
-    useEffect(() => {
-        console.log(reservas);
-    }, [reservas])
-
     return (
-        <>
-            <BaseLayout>
-                <h2>Reserva</h2>
+        <BaseLayout>
+            <ReservaForm onSubmit={handleFormSubmit} />
+            <ConfirmationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={handleAddReserva}
+                message="¿Estás seguro de que deseas hacer una reserva?"
+            />
+        </BaseLayout>
+    );
+};
 
-                <ReservaForm onSubmit={handleFormSubmit} />
-
-
-                
-            </BaseLayout>
-        </>
-    )
-}
 export default Reserva;

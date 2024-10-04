@@ -1,84 +1,59 @@
 import BaseLayout from '../components/layouts/BaseLayout';
 import React, { useEffect, useState } from 'react';
-
-import LoginButton from '../components/LoginButton';
-
 import PlatoController from '../controllers/PlatoController';
 import CategoriaPlatoController from '../controllers/CategoriaPlatoController';
+import PlatoCard from '../components/PlatoCard';
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const Carta = () => {
-
     const [platos, setPlatos] = useState([]);
     const [categoriaPlatos, setCategoriaPlatos] = useState([]);
 
     const platoController = new PlatoController();
     const categoriaPlatoController = new CategoriaPlatoController();
 
-    async function fetchDataDishWithIdCategory(id_category) {
-        const listaDePlatos = await platoController.get_by_id_category(id_category);
-        setDishWithCategory(prevState => [...prevState, listaDePlatos]);
-    }
-
     useEffect(() => {
-
         const fetchData = async () => {
             try {
-                const listaDeCategoriaPlatos = await categoriaPlatoController.get();
+                const [listaDeCategoriaPlatos, listaDePlatos] = await Promise.all([
+                    categoriaPlatoController.get(),
+                    platoController.get(),
+                ]);
+
                 setCategoriaPlatos(listaDeCategoriaPlatos);
-
-                const listaDePlatos = await platoController.get();
                 setPlatos(listaDePlatos);
-
-                // for (let i = 0; i < categoriaPlatos.length; i++) {
-                //     console.log("ID: " + listaDeCategoriaPlatos[i].Id);
-                //     fetchDataDishWithIdCategory(listaDeCategoriaPlatos[i].Id);
-                // }
-
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
             }
         };
 
         fetchData();
-    }, [])
-
-
-    useEffect(() => {
-        console.log(platos);
-
-    }, [platos])
-
-    useEffect(() => {
-        console.log(categoriaPlatos);
-
-    }, [categoriaPlatos])
+    }, []);
 
     return (
-        <>
-            <BaseLayout>
-                <h2>Carta</h2>
-
-                <h3>--- Categoria Platos ---</h3>
-
-
+        <BaseLayout>
+            <Container>
                 {categoriaPlatos.map(categoria => (
-                    <li key={categoria.id}>
+                    <div key={categoria.Id}>
                         <h2>{categoria.nombre}</h2>
-                        <ul>
-                            {platos.map(plato => {
-                                if (plato.categoria_plato_id === categoria.Id) {
-                                    return <li key={plato.Id}>{plato.nombre} - Precio: {plato.precio} euros</li>;
-                                }
-                                return null;
-                            })}
-                        </ul>
-                    </li>
+                        <Row>
+                            {platos
+                                .filter(plato => plato.categoria_plato_id === categoria.Id)
+                                .map(plato => (
+                                    <Col xs={6} sm={4} md={3} lg={3} key={plato.Id}>
+                                            <PlatoCard plato={plato} />
+                                    </Col>
+                                ))}
+                        </Row>
+                        <br></br>
+                    </div>
                 ))}
+            </Container>
+        </BaseLayout>
+    );
+};
 
-
-                <LoginButton></LoginButton>
-            </BaseLayout>
-        </>
-    )
-}
 export default Carta;

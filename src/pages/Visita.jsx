@@ -6,6 +6,12 @@ import VisitaForm from '../components/VisitaForm'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import Card from 'react-bootstrap/Card';
+
 const Visita = () => {
 
     const [visitas, setVisitas] = useState([]);
@@ -58,20 +64,28 @@ const Visita = () => {
                     </Modal.Body>
 
                 </Modal>
+                <br></br><br></br><br></br>
+                <Container>
+                    <Row>
+                        {visitas.map(item => {
+                            if (item.active == 1) {
+                                return <Col>
+                                    <Card style={{ width: '18rem' }}>
+                                        <Card.Body>
+                                            <Card.Title><strong>{item.nombre}</strong> </Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">{item.correo}</Card.Subtitle>
+                                            <Card.Text>
+                                                {item.texto}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            }
+                            return null;
+                        })}
 
-                <h2>Visita</h2>
-
-                {visitas.map(item => {
-                    if (item.active == 1) {
-                        return <div>
-                            -------------------------------------------------------------------------------
-                            <h2>Nombre: {item.nombre}</h2>
-                            <h2>Correo: {item.correo}</h2>
-                            <h2>Texto: {item.texto}</h2>
-                        </div>;
-                    }
-                    return null;
-                })}
+                    </Row>
+                </Container>
             </BaseLayout>
         </>
     )

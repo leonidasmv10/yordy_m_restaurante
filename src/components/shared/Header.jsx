@@ -12,13 +12,13 @@ const Header = () => {
                         <Nav.Link as={Link} to="/">Inicio</Nav.Link>
                         <Nav.Link as={Link} to="/contacto">Contacto</Nav.Link>
                         <Nav.Link as={Link} to="/carta">Carta</Nav.Link>
-                        <Nav.Link as={Link} to="/menu">Menú</Nav.Link>
-                        <Nav.Link as={Link} to="/reserva">Reserva</Nav.Link>
-                        <Nav.Link as={Link} to="/visitas">Visitas</Nav.Link>
+                        <Nav.Link as={Link} to="/menu">Menú Semanal</Nav.Link>
+                        <Nav.Link as={Link} to="/reserva">Formulario de Reserva</Nav.Link>
+                        <Nav.Link as={Link} to="/visitas">Libro de visitas</Nav.Link>
                         <NavDropdown title="Administrador" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/admin/menu">Menú</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/admin/reserva">Reservas</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/admin/opiniones">Opiniones</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/admin/menu">Gestionar Menú Semanal</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/admin/reserva">Ver Reservas</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/admin/opiniones">Gestionar Opiniones</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form";
 
 const ReservaForm = ({ onSubmit }) => {
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-
     const { register, handleSubmit, setValue } = useForm();
 
     register("fecha");
