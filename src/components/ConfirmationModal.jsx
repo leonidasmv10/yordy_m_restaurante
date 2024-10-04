@@ -15,7 +15,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, message }) => {
                     No
                 </Button>
                 <Button variant="primary" onClick={() => {
-                    onConfirm(); // Asegúrate de que esto no se ejecute en renderizado
+                    onConfirm();
                     onClose();
                 }}>
                     Sí

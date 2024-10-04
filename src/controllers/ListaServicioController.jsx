@@ -6,7 +6,7 @@ class ListaServicioController extends BaseController {
     }
 
     async get_services_id_by_dish_id(id) {
-        const url = this.url_nocodb + "?where=(plato_id,eq," + id + ")";
+        const url = `${this.url_nocodb}?where=(plato_id,eq,${id})`; // Uso de plantillas de cadena
         let servicesIds = [];
 
         const options = {
@@ -15,19 +15,18 @@ class ListaServicioController extends BaseController {
                 "xc-token": this.token,
                 'Content-Type': 'application/json'
             }
-        }
+        };
 
         try {
             const response = await fetch(url, options);
             const data = await response.json();
             servicesIds = data.list.map(item => item.servicio_id);
         } catch (e) {
-            console.log(e);
+            console.error("Error al obtener los IDs de servicios:", e);
         }
 
-        return servicesIds;
+        return servicesIds; // Devuelve la lista de IDs de servicios
     }
-
 }
 
 export default ListaServicioController;
